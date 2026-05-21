@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat Yatra | Ultimate Guide</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="project2.css">
+</head>
+<body>
+    <nav class="app-nav">
+        <div class="nav-brand">Bharat Yatra 🇮🇳</div>
+        <ul class="nav-links">
+            <li><button class="nav-btn active" onclick="switchPage('home-view', this)">Home</button></li>
+            <li><button class="nav-btn" onclick="switchPage('explore-view', this)">Explore</button></li>
+            <li><button class="nav-btn" onclick="switchPage('compare-view', this)">Compare ⚖️</button></li>
+            <li><button class="nav-btn" onclick="switchPage('planner-view', this)">TripMatcher</button></li>
+            <li><button class="nav-btn" onclick="switchPage('about-view', this)">About Us</button></li>
+            <li><button class="nav-btn" onclick="switchPage('contact-view', this)">Contact</button></li>
+            <li><button class="nav-btn" id="theme-btn" onclick="toggleTheme()">🌙 Dark Mode</button></li>
+        </ul>
+    </nav>
+
+    <main id="app-content">
+        <section id="home-view" class="app-page active-page">
+            <header>
+                <div class="overlay">
+                    <h1>Bharat Yatra 🇮🇳</h1>
+                    <p>Explore India's Best Destinations on Your Budget</p>
+                    <button class="btn btn-subscribe" style="font-size: 1.2rem; padding: 15px 30px; margin-top: 20px;" onclick="switchPage('explore-view', document.querySelectorAll('.nav-btn')[1])">Start Exploring Now</button>
+                </div>
+            </header>
+            
+            <div style="padding: 60px 20px; text-align: center; max-width: 1000px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Welcome to Your Ultimate Travel Companion</h2>
+                <p style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 50px;">Stop endlessly scrolling. We've organized the best history, spirituality, and adventure spots across India, complete with accurate budgets and real itineraries.</p>
+                
+                <h3 style="color: var(--accent); font-size: 2rem; margin-bottom: 30px;">Travel Styles for Every Soul</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                    <div class="feature-card">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🎒</div>
+                        <h3>Solo Backpacking</h3>
+                        <p>Find the best budget hostels, safe trails, and vibrant traveler cafes in places like Kasol, Varkala, and Rishikesh.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">👩‍❤️‍👨</div>
+                        <h3>Romantic Getaways</h3>
+                        <p>Plan the perfect anniversary trip. Discover serene backwaters, quiet beaches, and majestic palaces to celebrate your milestones.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">👨‍👩‍👧‍👦</div>
+                        <h3>Family Vacations</h3>
+                        <p>Safe, comfortable, and culturally rich destinations perfect for creating lifelong memories with the whole family.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 60px; padding: 40px; background: var(--nav-bg); color: white; border-radius: 20px;">
+                    <h2>Don't want to search? Let us decide.</h2>
+                    <p style="margin-bottom: 20px;">Use our custom TripMatcher algorithm to find the exact city that fits your vibe and wallet.</p>
+                    <button class="btn btn-subscribe" style="padding: 12px 25px; font-size: 1.1rem;" onclick="switchPage('planner-view', document.querySelectorAll('.nav-btn')[3])">Try TripMatcher</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="explore-view" class="app-page">
+            <div class="controls-bar">
+                <h2>Find Your Destination</h2>
+                <div class="controls">
+                    <input type="text" id="searchInput" placeholder="Search City..." onkeyup="searchCity()">
+                    <input type="number" id="budgetInput" placeholder="Max Budget (₹)" onchange="filterByBudget()">
+                </div>
+            </div>
+            <section class="filter-section">
+                <div class="filters">
+                    <button class="f-btn active" onclick="filterByInterest('All', this)">All Destinations</button>
+                    <button class="f-btn" onclick="filterByInterest('Spiritual', this)">Spiritual ✨</button>
+                    <button class="f-btn" onclick="filterByInterest('History', this)">History 🏛️</button>
+                    <button class="f-btn" onclick="filterByInterest('Adventure', this)">Adventure 🏄‍♂️</button>
+                    <button class="f-btn" onclick="filterByInterest('Beach', this)">Beaches 🏖️</button>
+                </div>
+            </section>
+            <div id="display-container" class="city-grid"></div>
+        </section>
+
+        <section id="compare-view" class="app-page">
+            <div class="controls-bar">
+                <h2>Compare Destinations ⚖️</h2>
+                <p>Can't decide? Select two cities to compare them side-by-side.</p>
+                <div class="controls" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <select id="city1-select" class="form-input" style="width: 250px; margin: 0;"></select>
+                    <span style="font-size: 24px; font-weight: bold; margin-top: 10px;">VS</span>
+                    <select id="city2-select" class="form-input" style="width: 250px; margin: 0;"></select>
+                    <button class="btn btn-subscribe" onclick="compareCities()">Compare Now</button>
+                </div>
+            </div>
+            <div id="compare-results" class="city-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                </div>
+        </section>
+
+        <section id="planner-view" class="app-page">
+            <div class="form-container">
+                <h2>TripMatcher Planner 🎒</h2>
+                <p>Tell us your preferences and let us build your itinerary.</p>
+                <form onsubmit="alert('Your custom itinerary is being generated! We will email it to you soon.'); return false;">
+                    <input type="text" placeholder="Your Name" required class="form-input">
+                    <select class="form-input" required>
+                        <option value="">Select Travel Style</option>
+                        <option value="solo">Solo Backpacking</option>
+                        <option value="couple">Romantic Getaway</option>
+                        <option value="family">Family Vacation</option>
+                    </select>
+                    <input type="number" placeholder="Total Budget (₹)" required class="form-input">
+                    <button type="submit" class="btn btn-subscribe">Match My Trip</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="about-view" class="app-page">
+            <div class="content-container" style="max-width: 800px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 10px;">About Bharat Yatra</h2>
+                <p style="color: var(--accent); font-weight: bold; margin-bottom: 30px;">Empowering every Indian to explore their country.</p>
+                
+                <img src="https://images.unsplash.com/photo-1532664189809-02133fee698d?w=800" alt="India Map" style="width:100%; border-radius:15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                
+                <div style="text-align: left; margin-bottom: 40px;">
+                    <h3 style="border-bottom: 2px solid var(--accent); padding-bottom: 10px; display: inline-block;">Our Story</h3>
+                    <p style="font-size: 16px; line-height: 1.8;">Traveling across India shouldn't be confusing or restrictively expensive. We created Bharat Yatra after realizing how hard it was to find reliable, budget-friendly itineraries for both famous monuments and hidden gems. Whether you are a student planning a backpacking trip to Kasol or a couple organizing a romantic retreat in Udaipur, we provide accurate budgets, curated itineraries, and interactive maps to make your dream trip a reality.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; margin-bottom: 40px;">
+                    <div style="background: var(--bg-color); padding: 20px; border-radius: 10px; border-left: 4px solid var(--blue);">
+                        <h4 style="margin-top: 0; color: var(--blue);">🎯 Our Mission</h4>
+                        <p style="font-size: 14px; line-height: 1.6;">To make travel accessible to everyone by providing transparent budget data and customized travel routes.</p>
+                    </div>
+                    <div style="background: var(--bg-color); padding: 20px; border-radius: 10px; border-left: 4px solid var(--green);">
+                        <h4 style="margin-top: 0; color: var(--green);">🌍 Our Vision</h4>
+                        <p style="font-size: 14px; line-height: 1.6;">To become India's #1 digital travel companion, promoting local businesses, sustainable tourism, and cultural appreciation.</p>
+                    </div>
+                </div>
+                
+                <div class="reviews-section" style="margin-top: 40px; text-align: left;">
+                    <h3 style="text-align: center; color: var(--accent);">What Travelers Say 🌟</h3>
+                    <div class="review-card">"Bharat Yatra helped me plan my Kedarnath trek perfectly within my budget! The day-by-day itineraries are a lifesaver." <br><strong>- Rahul T.</strong></div>
+                    <div class="review-card">"The TripMatcher feature is amazing! We found the perfect beach getaway for our anniversary. Highly recommend!" <br><strong>- Priya & Aman</strong></div>
+                    <div class="review-card">"The budget estimations are highly accurate. A lifesaver for students." <br><strong>- Sneha M.</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact-view" class="app-page">
+            <div class="form-container">
+                <h2>Contact Support 📞</h2>
+                <p>Have a question or want to suggest a new city?</p>
+                <form onsubmit="alert('Message Sent! Thank you.'); return false;">
+                    <input type="email" placeholder="Your Email" required class="form-input">
+                    <textarea placeholder="Your Message..." rows="4" required class="form-input"></textarea>
+                    <button type="submit" class="btn btn-map">Send Message</button>
+                </form>
+
+                <div style="margin-top: 50px; border-top: 1px solid var(--border-color); padding-top: 30px;">
+                    <h2>Leave App Feedback 📝</h2>
+                    <form onsubmit="alert('Thank you for your feedback! We constantly strive to improve.'); return false;">
+                        <select class="form-input" required>
+                            <option value="">Rate your experience</option>
+                            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                            <option value="4">⭐⭐⭐⭐ Good</option>
+                            <option value="3">⭐⭐⭐ Average</option>
+                            <option value="2">⭐⭐ Below Average</option>
+                            <option value="1">⭐ Poor</option>
+                        </select>
+                        <textarea placeholder="Tell us what you liked or what we can improve..." rows="3" required class="form-input"></textarea>
+                        <button type="submit" class="btn btn-subscribe">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content info-box">
+            <span class="close-btn" onclick="closeModal('infoModal')">&times;</span>
+            <div id="info-content"></div>
+        </div>
+    </div>
+
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('mapModal')">&times;</span>
+            <div id="map-element" style="height: 450px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding-bottom: 30px; text-align: left;">
+            <div class="footer-section brand">
+                <h2 style="color: var(--accent); margin-top: 0;">Bharat Yatra 🇮🇳</h2>
+                <p style="line-height: 1.6;">Your ultimate guide to exploring India on a budget. Discover history, spirituality, and adventure without breaking the bank.</p>
+            </div>
+            
+            <div class="footer-section links">
+                <h3 style="color: white; margin-top: 0;">Quick Links</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;" onclick="switchPage('home-view', document.querySelectorAll('.nav-btn')[0])">Home</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;" onclick="switchPage('planner-view', document.querySelectorAll('.nav-btn')[3])">TripMatcher</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;" onclick="switchPage('about-view', document.querySelectorAll('.nav-btn')[4])">About Us</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;" onclick="switchPage('contact-view', document.querySelectorAll('.nav-btn')[5])">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section links">
+                <h3 style="color: white; margin-top: 0;">Top Destinations</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">Varanasi</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">Goa</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">Jaipur</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">Andaman</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section newsletter">
+                <h3 style="color: white; margin-top: 0;">Travel Hacks</h3>
+                <p>Get the latest budget tips delivered to your inbox!</p>
+                <form id="newsletter-form" style="display: flex; margin-top: 15px;">
+                    <input type="email" id="email-input" placeholder="Enter your email" required style="padding: 10px; border: none; border-radius: 5px 0 0 5px; flex-grow: 1;">
+                    <button type="submit" class="btn btn-subscribe" style="border-radius: 0 5px 5px 0; padding: 10px 15px;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center;">
+            <div style="margin-bottom: 15px; font-size: 1.5rem;">
+                <span style="margin: 0 10px; cursor: pointer;">📸</span>
+                <span style="margin: 0 10px; cursor: pointer;">🐦</span>
+                <span style="margin: 0 10px; cursor: pointer;">📘</span>
+                <span style="margin: 0 10px; cursor: pointer;">💼</span>
+            </div>
+            <p style="margin: 0;">&copy; <span id="current-year"></span> Bharat Yatra. Built for adventurers and romantics alike.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="project2.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+/* ================= 1. ROOT COLORS & DYNAMIC THEMES ================= */
+:root { 
+    --accent: #d35400; 
+    --blue: #2980b9; 
+    --green: #27ae60; 
+    
+    /* Light Mode Variables */
+    --bg-color: #f4f7f6;
+    --text-color: #2c3e50;
+    --card-bg: #ffffff;
+    --nav-bg: #2c3e50;
+    --input-bg: #ffffff;
+    --border-color: #ccc;
+}
+
+/* Dark Mode Variables */
+body.dark-theme {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --nav-bg: #000000;
+    --input-bg: #2c2c2c;
+    --border-color: #444;
+}
+
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    background: var(--bg-color); 
+    color: var(--text-color); 
+    transition: background 0.3s, color 0.3s;
+}
+
+/* ================= 2. APP NAVIGATION BAR ================= */
+.app-nav {
+    background: var(--nav-bg); padding: 15px 30px; display: flex; justify-content: space-between;
+    align-items: center; position: sticky; top: 0; z-index: 9999; box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    transition: background 0.3s;
+}
+
+.nav-brand { color: white; font-size: 1.5rem; font-weight: bold; }
+.nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; align-items: center; flex-wrap: wrap;}
+
+.nav-btn {
+    background: none; border: none; color: #bdc3c7; font-size: 1rem; font-weight: bold;
+    cursor: pointer; padding: 8px 15px; border-radius: 5px; transition: 0.3s ease;
+}
+
+.nav-btn:hover, .nav-btn.active { color: white; background: var(--accent); }
+
+/* ================= 3. SPA PAGE TOGGLING LOGIC ================= */
+.app-page { display: none; animation: fadeIn 0.5s ease-in-out; }
+.app-page.active-page { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ================= 4. HEADER / HERO SECTION ================= */
+header {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop');
+    background-size: cover; background-position: center; background-attachment: fixed;
+    height: 450px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; color: white; border-bottom: 5px solid var(--accent);
+}
+header h1 { font-size: 4rem; margin: 0 0 10px 0; text-shadow: 3px 3px 10px rgba(0,0,0,0.8); }
+header p { font-size: 1.3rem; margin: 0 0 30px 0; font-weight: 500; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+
+/* ================= 5. SEARCH & FILTERS ================= */
+.controls-bar { background: var(--nav-bg); color: white; padding: 30px; text-align: center; transition: background 0.3s; }
+.controls input, .controls select { 
+    padding: 12px 20px; width: 220px; border-radius: 25px; border: 1px solid var(--border-color); 
+    margin: 10px; outline: none; background: var(--input-bg); color: var(--text-color); font-family: inherit;
+}
+.filter-section { padding: 20px; text-align: center; background: var(--bg-color); transition: background 0.3s; }
+.f-btn { 
+    padding: 10px 22px; margin: 5px; cursor: pointer; border-radius: 25px; 
+    border: 2px solid var(--accent); background: var(--card-bg); font-weight: bold; 
+    color: var(--text-color); transition: 0.3s ease;
+}
+.f-btn.active, .f-btn:hover { background: var(--accent); color: white; }
+
+/* ================= 6. CITY GRID & CARDS ================= */
+.city-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 30px; max-width: 1400px; margin: 0 auto; }
+.card { 
+    background: var(--card-bg); border-radius: 20px; overflow: hidden; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; transition: transform 0.4s ease, background 0.3s; 
+}
+.card:hover { transform: translateY(-8px); }
+.budget-badge { position: absolute; top: 15px; right: 15px; background: var(--green); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; z-index: 10; }
+.card img { width: 100%; height: 240px; object-fit: cover; }
+.card-body { padding: 20px; }
+.info-group { margin: 10px 0; font-size: 14px; }
+.info-group strong { color: var(--accent); display: block; margin-bottom: 2px; }
+
+.action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+.btn { border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; color: white; transition: 0.3s ease; }
+.btn-info { background: #34495e; }
+.btn-map { background: var(--blue); }
+.btn-subscribe { background-color: var(--accent); }
+
+/* ================= 7. NEW PAGES, FORMS & REVIEWS ================= */
+.form-container, .content-container {
+    max-width: 600px; margin: 50px auto; background: var(--card-bg); padding: 40px; 
+    border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; transition: background 0.3s;
+}
+.form-input {
+    width: 100%; padding: 15px; margin: 10px 0 20px; border: 1px solid var(--border-color); 
+    border-radius: 8px; font-size: 16px; background: var(--input-bg); color: var(--text-color); box-sizing: border-box; font-family: inherit;
+}
+.review-card {
+    background: var(--bg-color); padding: 15px 20px; margin: 15px 0;
+    border-left: 4px solid var(--accent); border-radius: 5px; font-style: italic; color: var(--text-color);
+}
+
+/* ================= 8. MODALS & FOOTER ================= */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
+.modal-content { background: var(--card-bg); margin: 5% auto; padding: 30px; width: 75%; max-width: 900px; border-radius: 15px; position: relative; max-height: 85vh; overflow-y: auto; color: var(--text-color); }
+.close-btn { position: absolute; right: 25px; top: 15px; font-size: 35px; cursor: pointer; color: var(--text-color); transition: 0.3s; }
+.close-btn:hover { color: var(--accent); }
+.site-footer { background-color: var(--nav-bg); padding: 30px 20px; margin-top: 50px; text-align: center; color: #95a5a6; }
+
+/* ================= 9. FEATURE CARDS (Main Page) ================= */
+.feature-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 4px solid var(--accent);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+body.dark-theme .feature-card {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+body.dark-theme .feature-card:hover {
+    box-shadow: 0 12px 20px rgba(0,0,0,0.7);
+}
