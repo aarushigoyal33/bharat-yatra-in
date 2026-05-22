@@ -1,6 +1,6 @@
 # 🌍 Smart Budget Trip Planner
 
-Smart Budget Trip Planner is a web-based travel recommendation system developed using **HTML, CSS, and JavaScript**. The project helps users plan affordable trips across different states of India according to their budget and trip duration.
+Smart Budget Trip Planner is a web-based travel recommendation system developed using **HTML, CSS, and JavaScript**. The project helps users plan affordable trips across different states of India according to their budget and trip duration
 
 The user enters their budget and number of travel days, and the system suggests suitable destinations within the budget range. It also displays the destination on a map and generates a day-wise itinerary for the complete trip.
 
