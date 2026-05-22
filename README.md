@@ -65,7 +65,7 @@ With:
 
 ## 🎯 Objective
 
-The main objective of this project is to simplify travel planning by providing users with affordable and personalized trip recommendations while saving time and effort.
+The main objective of this project is to simplify travel planning by providing users with affordable and personalized trip recommendations while saving time and effort
 
 ---
 
